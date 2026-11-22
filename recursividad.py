@@ -114,3 +114,29 @@ for numero in [3, 5, 7]:
     print("Resultado recursivo:", resultado_recursivo)
 
 print("\n===== FIN DEL PROGRAMA =====")
+
+
+
+# PRUEBAS DE ENTRADAS INVALIDAS
+
+print("\n===== PRUEBAS INVALIDAS =====")
+
+try:
+    factorial(-3)
+except ValueError as error:
+    print("Factorial:", error)
+
+try:
+    potencia(2, -2)
+except ValueError as error:
+    print("Potencia:", error)
+
+try:
+    sumatoria_recursiva(-5)
+except ValueError as error:
+    print("Sumatoria:", error)
+
+try:
+    sumatoria_iterativa(-4)
+except ValueError as error:
+    print("Sumatoria iterativa:", error)
