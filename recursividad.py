@@ -1,142 +1,127 @@
-# PROYECTO: FUNCIONES RECURSIVAS EN PYTHON
+
+# SISTEMA DE ANALISIS DE ENTREGAS DIGITALES
+
+# 1. REGISTRO DE OCHO ENTREGAS SIMULADAS
+
+entregas = [
+    {"codigo": "EST001", "archivo": "trabajo_final.pdf", "intentos": 2, "puntaje": 18, "observaciones": "Entrega completa"},
+    {"codigo": "EST002", "archivo": "tarea_v2.docx", "intentos": 1, "puntaje": 16, "observaciones": "Entrega correcta"},
+    {"codigo": "EST003", "archivo": "proyecto_final.pdf", "intentos": 3, "puntaje": 20, "observaciones": "Buen trabajo"},
+    {"codigo": "EST004", "archivo": "actividad.docx", "intentos": 1, "puntaje": 15, "observaciones": "Entrega incompleta"},
+    {"codigo": "EST005", "archivo": "informe_v2.pdf", "intentos": 2, "puntaje": 17, "observaciones": "Entrega corregida"},
+    {"codigo": "EST006", "archivo": "practica_final.docx", "intentos": 1, "puntaje": 19, "observaciones": "Entrega completa"},
+    {"codigo": "EST007", "archivo": "ejercicio.pdf", "intentos": 2, "puntaje": 14, "observaciones": "Falta informacion"},
+    {"codigo": "EST008", "archivo": "entrega_final.pdf", "intentos": 1, "puntaje": 18, "observaciones": "Entrega correcta"}
+]
 
 
-# PASO 3: FUNCION FACTORIAL
+# 2. SUMATORIA RECURSIVA DE PUNTAJES
 
-def factorial(n):
-    if not isinstance(n, int) or isinstance(n, bool) or n < 0:
-        raise ValueError("Ingrese un numero entero no negativo")
-
-    # Caso base
-    if n == 0 or n == 1:
-        return 1
-
-    # Caso recursivo
-    return n * factorial(n - 1)
-
-
-# FUNCION POTENCIA
-
-def potencia(base, exponente):
-    if not isinstance(exponente, int) or isinstance(exponente, bool) or exponente < 0:
-        raise ValueError("El exponente debe ser no negativo")
-
-    # Caso base
-    if exponente == 0:
-        return 1
-
-    # Caso recursivo
-    return base * potencia(base, exponente - 1)
-
-
-# PASO 4: CONTEO RECURSIVO EN UNA LISTA
-
-def contar_elemento(lista, elemento, indice=0):
-
-    # Caso base
+def sumar_puntajes_recursivo(lista, indice=0):
     if indice == len(lista):
         return 0
 
-    # Caso recursivo
-    if lista[indice] == elemento:
-        return 1 + contar_elemento(lista, elemento, indice + 1)
-
-    return contar_elemento(lista, elemento, indice + 1)
+    return lista[indice]["puntaje"] + sumar_puntajes_recursivo(lista, indice + 1)
 
 
-# PASO 5: SUMATORIA ITERATIVA
+# 3. SUMATORIA ITERATIVA DE PUNTAJES
 
-def sumatoria_iterativa(n):
-    if not isinstance(n, int) or isinstance(n, bool) or n < 0:
-        raise ValueError("Ingrese un numero entero no negativo")
+def sumar_puntajes_iterativo(lista):
+    total = 0
 
-    resultado = 0
+    for entrega in lista:
+        total += entrega["puntaje"]
 
-    for numero in range(1, n + 1):
-        resultado += numero
-
-    return resultado
+    return total
 
 
-# SUMATORIA RECURSIVA
+# 4. BUSQUEDA RECURSIVA DE CODIGO DE ESTUDIANTE
 
-def sumatoria_recursiva(n):
-    if not isinstance(n, int) or isinstance(n, bool) or n < 0:
-        raise ValueError("Ingrese un numero entero no negativo")
+def buscar_codigo_recursivo(lista, codigo, indice=0):
+    if not isinstance(codigo, str) or not codigo.strip():
+        raise ValueError("El codigo de busqueda no puede estar vacio")
 
-    # Caso base
-    if n == 0:
+    if indice == len(lista):
+        return None
+
+    if lista[indice]["codigo"] == codigo:
+        return lista[indice]
+
+    return buscar_codigo_recursivo(lista, codigo, indice + 1)
+
+
+# 5. CONTEO RECURSIVO DE ARCHIVOS POR PALABRA CLAVE
+
+def contar_archivos_recursivo(lista, palabra, indice=0):
+    if not isinstance(palabra, str) or not palabra.strip():
+        raise ValueError("La palabra clave no puede estar vacia")
+
+    if indice == len(lista):
         return 0
 
-    # Caso recursivo
-    return n + sumatoria_recursiva(n - 1)
+    archivo = lista[indice]["archivo"].lower()
+
+    if palabra.lower() in archivo:
+        return 1 + contar_archivos_recursivo(lista, palabra, indice + 1)
+
+    return contar_archivos_recursivo(lista, palabra, indice + 1)
 
 
+# 6. FUNCION RECURSIVA ADICIONAL: FACTORIAL
 
-# PROGRAMA PRINCIPAL
+def factorial(n):
+    if not isinstance(n, int) or isinstance(n, bool) or n < 0:
+        raise ValueError("Ingrese un entero no negativo")
 
+    if n == 0 or n == 1:
+        return 1
 
-print("===== PROYECTO DE RECURSIVIDAD =====")
-
-# PRUEBAS DE FACTORIAL
-print("\n1. FACTORIAL")
-
-for numero in [3, 5, 6]:
-    print("Factorial de", numero, "=", factorial(numero))
-
-
-# PRUEBAS DE POTENCIA
-print("\n2. POTENCIA")
-
-for base, exponente in [(2, 3), (3, 2), (5, 2)]:
-    print(base, "elevado a", exponente, "=", potencia(base, exponente))
+    return n * factorial(n - 1)
 
 
-# PRUEBA DE CONTEO EN LISTA
-print("\n3. CONTEO EN UNA LISTA")
+# 7. EJECUCION DEL PROGRAMA
 
-numeros = [2, 4, 2, 6, 2, 8]
+if __name__ == "__main__":
 
-print("Lista:", numeros)
-print("El numero 2 aparece:", contar_elemento(numeros, 2), "veces")
+    print("SISTEMA DE ANALISIS DE ENTREGAS DIGITALES")
+    print("-----------------------------------------")
 
+    print("\nLISTA DE ENTREGAS:")
+    for entrega in entregas:
+        print(entrega)
 
-# COMPARACION ITERATIVA Y RECURSIVA
-print("\n4. COMPARACION DE SUMATORIA")
+    print("\nSUMATORIA DE PUNTAJES:")
+    print("Resultado recursivo:", sumar_puntajes_recursivo(entregas))
+    print("Resultado iterativo:", sumar_puntajes_iterativo(entregas))
 
-for numero in [3, 5, 7]:
+    print("\nBUSQUEDA DE ESTUDIANTES:")
+    print("EST004:", buscar_codigo_recursivo(entregas, "EST004"))
+    print("EST099:", buscar_codigo_recursivo(entregas, "EST099"))
 
-    resultado_iterativo = sumatoria_iterativa(numero)
-    resultado_recursivo = sumatoria_recursiva(numero)
+    print("\nCONTEO DE ARCHIVOS:")
+    print("Archivos con 'final':", contar_archivos_recursivo(entregas, "final"))
+    print("Archivos con 'v2':", contar_archivos_recursivo(entregas, "v2"))
 
-    print("\nNumero:", numero)
-    print("Resultado iterativo:", resultado_iterativo)
-    print("Resultado recursivo:", resultado_recursivo)
+    print("\nFACTORIAL:")
+    print("Factorial de 5:", factorial(5))
 
-print("\n===== FIN DEL PROGRAMA =====")
+    print("\nPRUEBAS DE VALIDACION:")
 
+    try:
+        factorial(-3)
+    except ValueError as error:
+        print("Factorial negativo:", error)
 
+    try:
+        contar_archivos_recursivo(entregas, "")
+    except ValueError as error:
+        print("Palabra clave vacia:", error)
 
-# PRUEBAS DE ENTRADAS INVALIDAS
+    try:
+        buscar_codigo_recursivo(entregas, "")
+    except ValueError as error:
+        print("Codigo vacio:", error)
 
-print("\n===== PRUEBAS INVALIDAS =====")
-
-try:
-    factorial(-3)
-except ValueError as error:
-    print("Factorial:", error)
-
-try:
-    potencia(2, -2)
-except ValueError as error:
-    print("Potencia:", error)
-
-try:
-    sumatoria_recursiva(-5)
-except ValueError as error:
-    print("Sumatoria:", error)
-
-try:
-    sumatoria_iterativa(-4)
-except ValueError as error:
-    print("Sumatoria iterativa:", error)
+    print("\nPRUEBAS ADICIONALES:")
+    print("Lista vacia:", sumar_puntajes_recursivo([]))
+    print("Factorial de 0:", factorial(0))
